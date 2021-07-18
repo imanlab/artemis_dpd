@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="robot_ip" default="172.16.0.2"/>
+    <arg name="load_gripper" default="true"/>
+<!--     <arg name="launch_marker_detection" default="false" /> -->
+
+    <!-- CONTROLLER -->
+    <include file="$(find franka_control)/launch/franka_control.launch">
+        <arg name="robot_ip" value="$(arg robot_ip)"/>
+        <arg name="load_gripper" value="$(arg load_gripper)" />
+    </include>
+
+
+
+    
+    <!-- STATIC TRANSFORMS -->
+    <node pkg="tf" type="static_transform_publisher" name="create_world_transform" args="0 0 0 0 0 0 1 /world /panda_link0 100"/>
+
+    <!-- STATIC TRANSFORMS for new interface-->
+    <node pkg="tf" type="static_transform_publisher" name="tester" args="0.10748092 -0.00676115  0.03478946 0.65703685  0.01609626  0.75330948 -0.02383924 /panda_hand /camera_link 100"/>
+    <!-- transformation from  optical  frame to camera_up link from official nodlet (only use when using librealsense)     -->
+    <node pkg="tf" type="static_transform_publisher" name="realsense_camlink_optical" args="-0.0002, 0.015, -0.00015, -0.4983, 0.499, -0.4987, 0.5039  /camera_link /camera_color_optical_frame 100"/>
+
+
+
+    <!-- MOVE IT -->
+    <!-- <include file="$(find panda_moveit_config)/launch/panda_moveit.launch" /> -->
+
+    <!-- RVIZ -->
+    <include file="$(find panda_moveit_config)/launch/moveit_rviz.launch" />
+
+    
+    
+    <!-- launch camera  -->
+    <!-- <node name="realsense_camera" pkg="camera_calibration" type="Willow_script_pointCloud.py" output="screen"/> -->
+    <!-- <node name="PointCloud_baseframe" pkg="camera_calibration" type="PointCloud_BF.py" output="screen"/> -->
+
+    <!-- Aruco_detector -->
+    <!-- <include file="$(find simple_aruco_detector)/launch/detector.launch" /> -->
+
+
+     <!-- For verify the point -->
+    <node name="realsense_camera" pkg="camera_calibration" type="PC_reconstruction.py" output="screen"/>
+
+    
+
+
+</launch>
