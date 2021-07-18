@@ -10,7 +10,7 @@ from tcn import TCN
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from scipy.spatial.transform import Rotation as R
-import json
+import json, os, sys
 
 current_dir = os.getcwd()
 sys.path.insert(1, current_dir)
@@ -26,7 +26,6 @@ def create_dataset(dataset, look_back=1, look_forword=1):
 		dataY.append(dataset[i + look_back:i + look_back+look_forword])
 	return np.array(dataX), np.array(dataY)
 
-
 def transfor_matrix(ref):
 	trans = ref[0:3]
 	rot = ref[3::]
@@ -37,41 +36,38 @@ def transfor_matrix(ref):
 	trans = np.append(trans,[1])
 
 	T_matrix = np.transpose(np.vstack([np.transpose(Rmatrix),trans]))
-
 	return T_matrix
 
 def fromBF2MF(data,marker):
-  n,m = np.shape(data)
-  points_MF = []
-  T = np.linalg.inv(transfor_matrix(marker))
-  for i in range(n):
-    point_BF = np.append(data[i],[1])
-    point_MF = np.dot(T,point_BF)
-    points_MF.append(point_MF[0:3])
-  points_MF = np.array(points_MF )
-  return points_MF
+    n,m = np.shape(data)
+    points_MF = []
+    T = np.linalg.inv(transfor_matrix(marker))
+    for i in range(n):
+        point_BF = np.append(data[i],[1])
+        point_MF = np.dot(T,point_BF)
+        points_MF.append(point_MF[0:3])
+    points_MF = np.array(points_MF)
+    return points_MF
 
 def fromMF2BF (data,marker):
-  n,m = np.shape(data)
-  points_BF = []
-  T = transfor_matrix(marker)
-  for i in range(n):
-    point_MF = np.append(data[i],[1])
-    point_BF = np.dot(T,point_MF)
-    points_BF.append(point_BF[0:3])
-  points_BF = np.array(points_BF )
-  return points_BF
+    n,m = np.shape(data)
+    points_BF = []
+    T = transfor_matrix(marker)
+    for i in range(n):
+        point_MF = np.append(data[i],[1])
+        point_BF = np.dot(T,point_MF)
+        points_BF.append(point_BF[0:3])
+    points_BF = np.array(points_BF)
+    return points_BF
 
 def path(n, coordinate):
-
 	file_path = (PALPATION_DATA +"/newdata%s.json" %(n))
 	with open(file_path) as f:
 		data = json.loads(f.read())
 
 	marker = np.load(MARKER_PATH)
 
-
-	if n<15:
+	if n < 15:
 		marker = np.array(marker)[0]
 	else:
 		marker = np.array(marker)[4]
@@ -95,29 +91,20 @@ def path(n, coordinate):
 	diff = index[1::]-index[:-1]
 	index1 = index[0]
 	a = np.array(np.where(diff != 1)[0])
-	#index2 = index[a[0]+1]
 	index2 = index[a[-1]+1]
-
-
 	xyz = fromBF2MF(EE_pos[index1:index2,0:3],marker)
-
 
 	return xyz[0::50,coordinate], Time[index1:index2:50]
 
-
 with tf.device('/gpu:1'):
-
-
 	dataset = []
 
 	T=300
-
 	timeWindow = 50
 	timeprediction = 50
-
 	n_trajectory = 14
-
 	last_num = 0
+
 	mediax = np.zeros(timeWindow)
 	mediay = np.zeros(timeWindow)
 	mediaz = np.zeros(timeWindow)
@@ -143,36 +130,11 @@ with tf.device('/gpu:1'):
 		mediay = xsamples1[:timeWindow] + mediay
 		mediaz = xsamples1[:timeWindow] + mediaz
 
-		"""dataset.append(yinterp[0])
-		count = 0
-		for j in range(len(yinterp)-1):
-			if abs(yinterp[j]-yinterp[j+1]) > 0.0007:
-				dataset.append((yinterp[j+1]+yinterp[j])/2)
-				dataset.append(yinterp[j+1])
-
-			else:
-				count+=1
-			if count == 5:
-				dataset.append(yinterp[j+1])
-				count = 0"""
-
-
-
-
 		for j in yinterp:
-
 			dataset.append(j)
 
-
-
-
 	dataset = np.array(dataset)
-
-
-
 	print(np.shape(dataset))
-
-
 
 	# split into train and test sets
 	train_size = int(len(dataset) * 0.67)
@@ -181,148 +143,108 @@ with tf.device('/gpu:1'):
 	train, test = np.array(dataset[0:train_size]), np.array(dataset[train_size:len(dataset)])
 	print('train shape',len(train),'test shape', len(test))
 
-
 	validation_set_size = 1
-
 	train_set = train[0:train.shape[0]-validation_set_size ]
 	validation_set = train[train.shape[0]-validation_set_size:]
 	test_set = test[:]
 
-	#dataset = dataset-dataset[0]
-
-
-
-
-
 	# reshape into X=t and Y=t+1
 	trainX, trainY = create_dataset(dataset, timeWindow,timeprediction)
-	#validationX, validationY = create_dataset(validation_set,timeWindow,timeprediction)
-	#testX, testY = create_dataset(test_set, timeWindow,timeprediction)
-
-
-
+	_ , _ = create_dataset(validation_set,timeWindow,timeprediction)
+	_ , _ = create_dataset(test_set, timeWindow,timeprediction)
 
 	print('trainX',trainX.shape)
 	print('trainY',trainY.shape)
 
-	#modelz = keras.models.load_model('/home/kiyanoushs/Marta/ARTEMIS/MODEL/ultima_spiaggia/final_modelZ10_10.h5', custom_objects={'TCN': TCN})
-	#modely = keras.models.load_model('/home/kiyanoushs/Marta/ARTEMIS/MODEL/ultima_spiaggia/final_modelY10_10_noPC.h5', custom_objects={'TCN': TCN})
-	#modelx = keras.models.load_model('/home/kiyanoushs/Marta/ARTEMIS/MODEL/ultima_spiaggia/final_modelX10_10.h5', custom_objects={'TCN': TCN})
-
-	modelz = keras.models.load_model('/home/kiyanoushs/Marta/ARTEMIS/MODEL/ultima_spiaggia/GRUZ.h5', custom_objects={'TCN': TCN})
-	modely = keras.models.load_model('/home/kiyanoushs/Marta/ARTEMIS/MODEL/ultima_spiaggia/GRUY.h5', custom_objects={'TCN': TCN})
-	modelx = keras.models.load_model('/home/kiyanoushs/Marta/ARTEMIS/MODEL/ultima_spiaggia/GRUX.h5', custom_objects={'TCN': TCN})
-	#model = keras.models.load_model('/home/kiyanoushs/Marta/ARTEMIS/MODEL/final_modelZ_noPC.h5')
+	modelz = keras.models.load_model(current_dir + "/models/Z_TCN.h5", custom_objects={'TCN': TCN})
+	modely = keras.models.load_model(current_dir + "/models/Y_TCN.h5", custom_objects={'TCN': TCN})
+	modelx = keras.models.load_model(current_dir + "/models/X_TCN.h5", custom_objects={'TCN': TCN})
 	modelx.summary()
 	modely.summary()
 	modelz.summary()
 
 	#initial_trajectory = initial15(start_trajectory)
+			#it = T - timeWindow
+	it = 200
 
-	"""
-				#it = T - timeWindow
-				it = 200
+	targetx = np.zeros(shape=(it))
+	targety = np.zeros(shape=(it))
+	targetz = np.zeros(shape=(it))
 
-				targetx = np.zeros(shape=(it))
-				targety = np.zeros(shape=(it))
-				targetz = np.zeros(shape=(it))
+	x = True
+	iteration = 0
 
-				x = True
-				iteration = 0
-				#seq = trainX[0]
-				#seqx = mediax/14
-				#seqy = mediay/14
-				#seqz = mediaz/14
+	seqx = xsamples1[:timeWindow]
+	seqy = ysamples1[:timeWindow]
+	seqz = zsamples1[:timeWindow]
 
-				seqx = xsamples1[:timeWindow]
-				seqy = ysamples1[:timeWindow]
-				seqz = zsamples1[:timeWindow]
+	while x:
 
-				#print((np.transpose(np.expand_dims(seqx,axis=0))))
-				#print(seqx)
+		predictionx = modelx.predict(np.expand_dims(np.transpose(np.expand_dims(seqx,axis=0)),axis=0))
+		predictiony = modely.predict(np.expand_dims(np.transpose(np.expand_dims(seqy,axis=0)),axis=0))
+		predictionz = modelz.predict(np.expand_dims(np.transpose(np.expand_dims(seqz,axis=0)),axis=0))
+		#print(np.shape(predictionx),'shape prediction X')
 
+		targetx[iteration] = predictionx[0,0]
+		targety[iteration] = predictiony[0,0]
+		targetz[iteration] = predictionz[0,0]
 
-				while x:
+		next_stepx = predictionx[0,0]
+		next_stepy = predictiony[0,0]
+		next_stepz = predictionz[0,0]
 
-					#input_seq = np.transpose(np.expand_dims(seq,axis=0))
-					#print(np.shape(input_seq))
+		iteration+=1
 
-					predictionx = modelx.predict(np.expand_dims(np.transpose(np.expand_dims(seqx,axis=0)),axis=0))
-					predictiony = modely.predict(np.expand_dims(np.transpose(np.expand_dims(seqy,axis=0)),axis=0))
-					predictionz = modelz.predict(np.expand_dims(np.transpose(np.expand_dims(seqz,axis=0)),axis=0))
-					#print(np.shape(predictionx),'shape prediction X')
+		seqx[0:-1] = seqx[1::]
+		seqx[-1] = next_stepx
 
-					targetx[iteration] = predictionx[0,0]
-					targety[iteration] = predictiony[0,0]
-					targetz[iteration] = predictionz[0,0]
+		seqy[0:-1] = seqy[1::]
+		seqy[-1] = next_stepy
 
-					next_stepx = predictionx[0,0]
-					next_stepy = predictiony[0,0]
-					next_stepz = predictionz[0,0]
+		seqz[0:-1] = seqz[1::]
+		seqz[-1] = next_stepz
 
-					iteration+=1
+		if iteration >= it:
+			x=False
+			print('finish')
 
-					seqx[0:-1] = seqx[1::]
-					seqx[-1] = next_stepx
+	fig = plt.figure()
+	ax = fig.add_subplot(111, projection='3d')
 
-					seqy[0:-1] = seqy[1::]
-					seqy[-1] = next_stepy
+	ax.plot(targetx, targety, targetz)
 
-					seqz[0:-1] = seqz[1::]
-					seqz[-1] = next_stepz
+	plt.savefig(PLOTS + '/trackingprova_GRU3D.png')
 
+	plt.figure()
 
+	plt.plot(targetx, targety, 'b')
+	plt.savefig(PLOTS + '/trackingprova_GRU.png')
 
-					if iteration >= it:
-						x=False
-						print('finish')
-
-
-
-				fig = plt.figure()
-				ax = fig.add_subplot(111, projection='3d')
-
-				ax.plot(targetx, targety, targetz)
-
-				plt.savefig('trackingprova_GRU3D.png')
-
-				plt.figure()
-				#plt.plot(mediax/14,mediay/14, 'g')
-				#plt.plot(xinterp,yinterp, 'r')
-
-				plt.plot(targetx, targety, 'b')
-				plt.savefig('trackingprova_GRU.png')
+	plt.figure()
+	plt.plot(targetx, 'ob',label='Prediction X')
+	plt.ylabel('X axis')
+	plt.xlabel('n_samples')
+	plt.title('Prediction real time X axis')
+	plt.legend( loc='upper left')
+	plt.legend()
+	plt.savefig(PLOTS + '/trackingX_GRU.png')
 
 
+	plt.figure()
+	plt.plot(targety, 'ob',label='Prediction Y')
+	plt.ylabel('Y axis')
+	plt.xlabel('n_samples')
+	plt.title('Prediction real time Y axis')
+	plt.legend( loc='upper left')
+	plt.legend()
+	plt.savefig(PLOTS + '/trackingY_GRU.png')
 
 
-				plt.figure()
-				plt.plot(targetx, 'ob',label='Prediction X')
-				plt.ylabel('X axis')
-				plt.xlabel('n_samples')
-				plt.title('Prediction real time X axis')
-				plt.legend( loc='upper left')
-				plt.legend()
-				plt.savefig('trackinX_GRU.png')
-
-
-				plt.figure()
-				plt.plot(targety, 'ob',label='Prediction Y')
-				plt.ylabel('Y axis')
-				plt.xlabel('n_samples')
-				plt.title('Prediction real time Y axis')
-				plt.legend( loc='upper left')
-				plt.legend()
-				plt.savefig('trackinY_GRU.png')
-
-
-				plt.figure()
-				plt.plot(targetz, 'ob',label='Prediction Z')
-				plt.ylabel('Z axis')
-				plt.xlabel('n_samples')
-				plt.title('Prediction real time Z axis')
-				plt.legend( loc='upper left')
-				plt.legend()
-				plt.savefig('trackinZ_GRU.png')
-
-			"""
+	plt.figure()
+	plt.plot(targetz, 'ob',label='Prediction Z')
+	plt.ylabel('Z axis')
+	plt.xlabel('n_samples')
+	plt.title('Prediction real time Z axis')
+	plt.legend(loc='upper left')
+	plt.legend()
+	plt.savefig(PLOTS + '/trackingZ_GRU.png')
