@@ -34,23 +34,28 @@ All the experiments can be run on Tensorflow2 and Keras >=2.2.0. We have used Te
 - **ROS KInetic**
 
 ## Installation
-To use the artemis_dpd repository, you must first install the project dependencies. This can be done by install miniconda3 from here with python 3 and running:
+To use the artemis_dpd repository, you must first install the project dependencies. This can be done by installing python 3 and running:
 
-pip install -r requirements.txt
+`pip install -r requirements.txt`
 
 ## Datasets
 The datasets can be found in the palpation_data folder. We have obtained the datasets through ROS and our internal framework for Franka Robots.
 
-## References
+## Training
+After the dependencies are installed, the traning can by done by running:
 
-The references used for your work (research papers, blogs, books,etc.) can be listed here.
+```
+python deep_model/X.py
+python deep_model/Y.py
+python deep_model/Z.py
+python deep_model/tracking.py
+```
+
+Plots of the loss and palpation trajectory on test data are stored in the plots/ folder.
 
 ## Contact
-
-Provide a list of developers/maintainers email-ids of the repository so as to help resolve the issues future users may come across.
+For any bugs encountered, kindly raise an issue and our team will do our best to respond as soon as we can.
 
 
 ## Acknowledgements
-
-If your work is an extension of an existing repository/research work, the original work can be mentioned here.
-This template is inspired from a great template made available by @othneildrew at https://github.com/othneildrew/Best-README-Template/blob/master/README.md.
+This work was partially supported by Cancer Research UK C24524/A30038.
