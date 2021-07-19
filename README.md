@@ -1,5 +1,5 @@
 # ARTEMIS
-Advanced Robotic Breast Examination Intelligent System-- funded by **Cancer Research UK** ***C24524/A30038*** aims at developing an intelligent system for robotic palpation helping with early breast cancer detection.
+Advanced Robotic Breast Examination Intelligent System -- funded by **Cancer Research UK** ***C24524/A30038*** aims at developing an intelligent system for robotic palpation helping with early breast cancer detection.
 
 ## Table of Contents
 * [deep_pdp](https://github.com/imanlab/artemis_dpd/) contains Deep learning models from demonstrations.
@@ -21,7 +21,7 @@ This project is on motion/Path planning from demonstrations](https://github.com/
 </p>
 
 ## System Requirements
-All the experiments can be run on Tensorflow2 and Keras >=2.2.0. We have used Tensorflow-gpu 2.2 with a NVIDIA GeForce RTX2080 graphic card with 8GB memory with CUDA 11.0 for training on Ubuntu 18.04.
+All the experiments can be run on Tensorflow2 and Keras >=2.2.0.
 
 - **Tensorflow-gpu 2.2**
 - **NVIDIA GeForce RTX2080**
@@ -30,7 +30,7 @@ All the experiments can be run on Tensorflow2 and Keras >=2.2.0. We have used Te
 - **ROS KInetic**
 
 ## Installation
-To use the artemis_dpd repository, you must first install the project dependencies. This can be done by installing python 3 and running:
+To use the artemis_dpd repository, you must first install the project dependencies. This can be done by installing python3 and running:
 
 `pip install -r requirements.txt`
 
@@ -55,7 +55,6 @@ X, Y and Z are scripts used to train the network. Run one model at a time and sa
 
 ## Contact
 For any bugs encountered, kindly raise an issue and our team will do our best to respond as soon as we can.
-
 
 ## Acknowledgements
 This work was partially supported by Cancer Research UK C24524/A30038.
