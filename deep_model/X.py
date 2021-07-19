@@ -65,6 +65,8 @@ with tf.device('/cpu:0'):
     print('validation',validationX.shape)
     print('trainX',trainX.shape)
     print('trainY',trainY.shape)
+    print('testX',testX.shape)
+    print('testY',testY.shape)
 
     monitor = EarlyStopping(monitor='loss', min_delta=1e-4, patience=5, verbose=1, mode='auto', restore_best_weights=True)
 

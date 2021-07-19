@@ -40,7 +40,7 @@ To use the artemis_dpd repository, you must first install the project dependenci
   <img width="300" height="250" src="readme_files/teleoperation.png">
 </p>
 
-The datasets can be found in the palpation_data folder. We have obtained the datasets through ROS and our internal framework for Franka Robots.
+The datasets can be found in the palpation_data folder. We have obtained the datasets through ROS and our internal framework for Franka Robots. The [Xela Sensor](https://xelarobotics.com/xr1946) is a 4 by 6 which makes it a total of 24 Taxels. 
 
 ## Training
 After the dependencies are installed, the traning can by done by running:

@@ -65,6 +65,8 @@ with tf.device('/cpu:0'):
     print('validation',validationX.shape)
     print('trainX',trainX.shape)
     print('trainY',trainY.shape)
+    print('testX',testX.shape)
+    print('testY',testY.shape)
 
     monitor = EarlyStopping(monitor='loss', min_delta=1e-4, patience=5, verbose=1, mode='auto', restore_best_weights=True)
 
@@ -126,7 +128,7 @@ with tf.device('/cpu:0'):
 
     plt.plot(history4.history['loss'])
     plt.plot(history4.history['val_loss'])
-    plt.title('model loss Y axis')
+    plt.title('model loss Z axis')
     plt.ylabel('loss')
     plt.xlabel('epoch')
     plt.legend(['train', 'test'], loc='upper left')
@@ -169,7 +171,7 @@ with tf.device('/cpu:0'):
     plt.plot(predict3[:500], '--', label='Prediction RNN')
 
     plt.plot(target[:500], '--g' , label='GT' )
-    plt.ylabel('Y axis')
+    plt.ylabel('Z axis')
     plt.xlabel('n_samples')
     plt.title('Prediction in test phase Z axis')
     plt.legend(loc='upper left')
@@ -184,7 +186,7 @@ with tf.device('/cpu:0'):
     plt.plot(predict3[150:250], '--', label='Prediction RNN')
 
     plt.plot(target[150:250], '--g' , label='GT' )
-    plt.ylabel('Y axis')
+    plt.ylabel('Z axis')
     plt.xlabel('n_samples')
     plt.title('Prediction in test phase Z axis')
     plt.legend( loc='upper left')
