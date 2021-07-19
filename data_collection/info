@@ -1,7 +1,0 @@
-Before using these two scripts you need to connect to the robots and sensors.
-
-Use ROS and the guide for the sensor and lib_fanka for the robot. 
-
-Sensor_visualisation.py is used to display the sensor output in 3 graphs.
-Teleop_pointCloud2.py is used for teleoperation control between two robots with force feedback. In addition, a vector with robot information and sensor output is saved. You need also a vector with the point cloud of the object saved (PointCloudVector.npy). 
-
