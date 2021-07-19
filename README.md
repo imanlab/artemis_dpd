@@ -4,12 +4,13 @@ Then use tracking to simulate an online prediction.
 
 # ARTEMIS
 Advanced Robotic Breast Examination Intelligent System-- funded by **Cancer Research UK** ***C24524/A30038*** aims at developing an intelligent system for robotic palpation helping with early breast cancer detection.
-readme_files/
-## Table of Contents
 
+## Table of Contents
 * [deep_pdp](https://github.com/imanlab/artemis_dpd/) contains Deep learning models from demonstrations.
 * [About the project](About-The-Project)
-  * [Built With](#built-with)
+* [System Requirements](#System-Requirements)
+* [Installation](#Installation)
+* [Datasets](#Datasets)
 
 ## About The Project
 Early cancer detection is of utmost importance as it can allow faster, simpler and more effective treatment, hence saving many lives. Breast self-examination, expert palpation and Mammography are currently the means of detecting breast cancer. Expert and Self-examination are composed of a visual inspection of the breasts and palpation of the breasts and lymph nodes. Nonetheless, these are subjective approaches and may result in many false negative. On the other hand, in mammography, the body is exposed to radiation.
@@ -22,17 +23,22 @@ This project is on motion/Path planning from demonstrations](https://github.com/
   <img width="600" height="100%" src="readme_files/phantom_motion.JPG">
 </p>
 
-### Built With
-This section should list any major frameworks that you built your project using (preferrably along with links). Please try to specify the versions.
+## System Requirements
+All the experiments can be run on Tensorflow2 and Keras >=2.2.0. We have used Tensorflow-gpu 2.2 with a NVIDIA GeForce RTX2080 graphic card with 8GB memory with CUDA 11.0 for training on Ubuntu 18.04.
 
-- **Operating system xx**
-- **Language xx.xx**
-- **ROS dist**
+- **Tensorflow-gpu 2.2**
+- **NVIDIA GeForce RTX2080**
+- **CUDA 11.0**
+- **Ubuntu 16.04**
+- **ROS KInetic**
 
+## Installation
+To use the artemis_dpd repository, you must first install the project dependencies. This can be done by install miniconda3 from here with python 3 and running:
 
-## Method
+pip install -r requirements.txt
 
-
+## Datasets
+The datasets can be found in the palpation_data folder. We have obtained the datasets through ROS and our internal framework for Franka Robots. 
 
 ## References
 

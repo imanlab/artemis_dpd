@@ -1,0 +1,4 @@
+tensorflow==2.2
+numpy==1.14.1
+fastdtw
+tcn 

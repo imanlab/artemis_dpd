@@ -123,14 +123,6 @@ with tf.device('/cpu:0'):
     """
     PLOTS
     """
-    # plt.plot(history1.history['loss'])
-    # plt.plot(history1.history['val_loss'])
-    #
-    # plt.plot(history2.history['loss'])
-    # plt.plot(history2.history['val_loss'])
-    #
-    # plt.plot(history3.history['loss'])
-    # plt.plot(history3.history['val_loss'])
 
     plt.plot(history4.history['loss'])
     plt.plot(history4.history['val_loss'])
