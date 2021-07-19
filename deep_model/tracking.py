@@ -17,7 +17,6 @@ sys.path.insert(1, current_dir)
 from config import *
 
 # convert an array of values into a dataset matrix
-
 def create_dataset(dataset, look_back=1, look_forword=1):
 	dataX, dataY = [], []
 	for i in range(len(dataset)-look_back-1-look_forword):

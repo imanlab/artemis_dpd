@@ -8,7 +8,6 @@ def receive_sensor(msg):
     global sensor
     sensor = msg
 
-
 if __name__ == "__main__":
 
     sensor = None
@@ -132,5 +131,3 @@ if __name__ == "__main__":
 
             fig.canvas.draw_idle()
             fig.canvas.flush_events()
-
-
