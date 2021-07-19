@@ -1,6 +1,0 @@
-Use the launch file to collect the point cloud information.
-
-You need libraries for realsense-camera and for franka robot.
-
-1- run from the launch file Willow_script_pointCloud.py and PointCloud_BF.py to collect PC in base frame (you can take diffrent view from the object and save the PC for each view), you need asot to launch the file to detect the marker (I don't have it is in the ncnr package from kiyanoush account in the computer close to the windows).
-2- then use box.py to select only the point of the view that correspond to the object. 
