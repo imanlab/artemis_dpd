@@ -36,8 +36,8 @@ To use the artemis_dpd repository, you must first install the project dependenci
 
 ## Datasets
 <p align="center">
-  <img width="300" height="100%" src="readme_files/setup.png">
-  <img width="300" height="100%" src="readme_files/teleoperation.png">
+  <img width="300" height="250" src="readme_files/setup.png">
+  <img width="300" height="250" src="readme_files/teleoperation.png">
 </p>
 
 The datasets can be found in the palpation_data folder. We have obtained the datasets through ROS and our internal framework for Franka Robots.
