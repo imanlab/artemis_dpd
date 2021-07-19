@@ -10,7 +10,8 @@ Advanced Robotic Breast Examination Intelligent System-- funded by **Cancer Rese
 * [About the project](About-The-Project)
 * [System Requirements](#System-Requirements)
 * [Installation](#Installation)
-* [Datasets](#Datasets)
+  * [Datasets](#Datasets)
+  * [Training](#Training)
 
 ## About The Project
 Early cancer detection is of utmost importance as it can allow faster, simpler and more effective treatment, hence saving many lives. Breast self-examination, expert palpation and Mammography are currently the means of detecting breast cancer. Expert and Self-examination are composed of a visual inspection of the breasts and palpation of the breasts and lymph nodes. Nonetheless, these are subjective approaches and may result in many false negative. On the other hand, in mammography, the body is exposed to radiation.
@@ -38,7 +39,7 @@ To use the artemis_dpd repository, you must first install the project dependenci
 pip install -r requirements.txt
 
 ## Datasets
-The datasets can be found in the palpation_data folder. We have obtained the datasets through ROS and our internal framework for Franka Robots. 
+The datasets can be found in the palpation_data folder. We have obtained the datasets through ROS and our internal framework for Franka Robots.
 
 ## References
 
