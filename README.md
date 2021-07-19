@@ -1,7 +1,3 @@
-X, Y and Z are script used to train the network.
-Run one model at time and saved the network.
-Then use tracking to simulate an online prediction.
-
 # ARTEMIS
 Advanced Robotic Breast Examination Intelligent System-- funded by **Cancer Research UK** ***C24524/A30038*** aims at developing an intelligent system for robotic palpation helping with early breast cancer detection.
 
@@ -39,6 +35,11 @@ To use the artemis_dpd repository, you must first install the project dependenci
 `pip install -r requirements.txt`
 
 ## Datasets
+<p align="center">
+  <img width="600" height="100%" src="readme_files/setup.png">
+  <img width="600" height="100%" src="readme_files/teleoperation.png">
+</p>
+
 The datasets can be found in the palpation_data folder. We have obtained the datasets through ROS and our internal framework for Franka Robots.
 
 ## Training
@@ -50,8 +51,7 @@ python deep_model/Y.py
 python deep_model/Z.py
 python deep_model/tracking.py
 ```
-
-Plots of the loss and palpation trajectory on test data are stored in the plots/ folder.
+X, Y and Z are scripts used to train the network. Run one model at a time and save the model. Afterwards, you use tracking to simulate an online prediction. Plots of the loss and palpation trajectory on test data are stored in the plots/ folder.
 
 ## Contact
 For any bugs encountered, kindly raise an issue and our team will do our best to respond as soon as we can.
